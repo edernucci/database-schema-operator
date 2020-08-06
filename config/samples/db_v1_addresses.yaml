@@ -4,6 +4,9 @@ metadata:
   name: addresses-table
 spec:
   name: Addresses
+  databaseRef:
+    name: adventureworks
+    kind: Database
   columns:
   - name: Street
     type: varchar(50)

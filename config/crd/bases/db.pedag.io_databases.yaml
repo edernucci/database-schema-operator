@@ -36,9 +36,17 @@ spec:
         spec:
           description: DatabaseSpec defines the desired state of Database
           properties:
-            foo:
+            name:
               description: Foo is an example field of Database. Edit Database_types.go
                 to remove/update
+              type: string
+            password:
+              type: string
+            port:
+              type: integer
+            server:
+              type: string
+            user:
               type: string
           type: object
         status:

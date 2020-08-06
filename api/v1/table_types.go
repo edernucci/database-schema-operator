@@ -29,14 +29,16 @@ type Column struct {
 	Type string `json:"type,omitempty"`
 }
 
+type DatabaseReference struct {
+	Name string `json:"name,omitempty"`
+	Kind string `json:"kind,omitempty"`
+}
+
 // TableSpec defines the desired state of Table
 type TableSpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-
-	// Foo is an example field of Table. Edit Table_types.go to remove/update
-	Name    string   `json:"name,omitempty"`
-	Columns []Column `json:"columns,omitempty"`
+	Name     string            `json:"name,omitempty"`
+	Columns  []Column          `json:"columns,omitempty"`
+	Database DatabaseReference `json:"databaseRef,omitempty"`
 }
 
 // TableStatus defines the observed state of Table

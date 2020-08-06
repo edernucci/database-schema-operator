@@ -29,7 +29,11 @@ type DatabaseSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// Foo is an example field of Database. Edit Database_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	Name     string `json:"name,omitempty"`
+	Server   string `json:"server,omitempty"`
+	Port     int    `json:"port,omitempty"`
+	User     string `json:"user,omitempty"`
+	Password string `json:"password,omitempty"`
 }
 
 // DatabaseStatus defines the observed state of Database

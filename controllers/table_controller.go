@@ -44,17 +44,20 @@ func (r *TableReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("table", req.NamespacedName)
 
-	// your logic here
 	var table dbv1.Table
 	if err := r.Get(ctx, req.NamespacedName, &table); err != nil {
 		log.Error(err, "unable to fetch Table")
-		// we'll ignore not-found errors, since they can't be fixed by an immediate
-		// requeue (we'll need to wait for a new notification), and we can get them
-		// on deleted requests.
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	exists, err := helpers.CheckTable(table.Spec.Name)
+	var database dbv1.Database
+	err := r.Get(ctx, client.ObjectKey{Name: table.Spec.Database.Name, Namespace: table.Namespace}, &database)
+	if err != nil {
+		log.Error(err, "unable to fetch Database")
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	exists, err := helpers.CheckTable(table.Spec.Name, &database.Spec)
 	if err != nil {
 		log.Error(err, "Error checking table")
 		return ctrl.Result{}, nil
@@ -62,10 +65,10 @@ func (r *TableReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	if exists {
 		log.Info(fmt.Sprintf("The table [%s] exists on database.", table.Spec.Name))
-		helpers.UpdateColumns(table.Spec.Name, table.Spec.Columns)
+		helpers.UpdateColumns(table.Spec.Name, table.Spec.Columns, &database.Spec)
 	} else {
 		log.Info(fmt.Sprintf("Creating table [%s] on database.", table.Spec.Name))
-		_, err := helpers.CreateTable(table.Spec.Name, table.Spec.Columns)
+		_, err := helpers.CreateTable(table.Spec.Name, table.Spec.Columns, &database.Spec)
 		if err != nil {
 			log.Error(err, "Error creating table")
 			return ctrl.Result{}, nil

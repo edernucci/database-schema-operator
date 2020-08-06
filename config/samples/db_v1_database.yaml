@@ -3,9 +3,8 @@ kind: Database
 metadata:
   name: adventureworks
 spec:
-  # Add fields here
-  name: AdventureWorks
+  name: master
   server: localhost
   port: 1433
   user: sa
-  password: itssecret
+  password: ItsSecret2020

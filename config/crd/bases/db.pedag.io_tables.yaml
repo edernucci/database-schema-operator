@@ -44,9 +44,14 @@ spec:
                     type: string
                 type: object
               type: array
+            databaseRef:
+              properties:
+                kind:
+                  type: string
+                name:
+                  type: string
+              type: object
             name:
-              description: Foo is an example field of Table. Edit Table_types.go to
-                remove/update
               type: string
           type: object
         status:

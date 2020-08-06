@@ -3,14 +3,16 @@ package helpers
 import (
 	"database/sql"
 	"fmt"
+	_ "github.com/denisenkom/go-mssqldb"
 	"log"
 	"strings"
 
 	dbv1 "github.com/edernucci/database-schema-operator/api/v1"
 )
 
-func connect() (*sql.DB, error) {
-	return sql.Open("sqlserver", "sqlserver://sa:ItsSecret2020@localhost?database=master")
+func connect(options *dbv1.DatabaseSpec) (*sql.DB, error) {
+	connectionString := fmt.Sprintf("sqlserver://%s:%s@%s?database=%s", options.User, options.Password, options.Server, options.Name)
+	return sql.Open("sqlserver", connectionString)
 }
 
 func exec(sql string, db *sql.DB) (int64, error) {
@@ -28,8 +30,8 @@ func exec(sql string, db *sql.DB) (int64, error) {
 }
 
 // CheckTable is CheckTable
-func CheckTable(t string) (bool, error) {
-	db, err := connect()
+func CheckTable(t string, options *dbv1.DatabaseSpec) (bool, error) {
+	db, err := connect(options)
 	defer db.Close()
 	if err != nil {
 		return false, err
@@ -41,12 +43,12 @@ func CheckTable(t string) (bool, error) {
 		return false, err
 	}
 
-	return (i > 0), nil
+	return i > 0, nil
 }
 
 // CreateTable is CreateTable
-func CreateTable(tableName string, columns []dbv1.Column) (int64, error) {
-	db, err := connect()
+func CreateTable(tableName string, columns []dbv1.Column, options *dbv1.DatabaseSpec) (int64, error) {
+	db, err := connect(options)
 	defer db.Close()
 	if err != nil {
 		return 0, err
@@ -64,8 +66,8 @@ func CreateTable(tableName string, columns []dbv1.Column) (int64, error) {
 }
 
 // UpdateColumns is UpdateColumns
-func UpdateColumns(tableName string, columns []dbv1.Column) (int64, error) {
-	db, err := connect()
+func UpdateColumns(tableName string, columns []dbv1.Column, options *dbv1.DatabaseSpec) (int64, error) {
+	db, err := connect(options)
 	defer db.Close()
 	if err != nil {
 		return 0, err
