@@ -1,5 +1,5 @@
-# database-schema-operator
-This is a DBaaC (Database as a Code) PoC using Kubernetes Operator pattern.
+# Database Migration Schema Operator
+This is a DBaaC (Database as a Code) using Kubernetes Operator pattern.
 
 There will be some CRDs
 - Database
