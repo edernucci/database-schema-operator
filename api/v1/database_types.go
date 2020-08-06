@@ -36,11 +36,14 @@ type DatabaseSpec struct {
 type DatabaseStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	Initialized bool `json:"initialized,omitempty"`
+	Ready       bool `json:"ready,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
 // Database is the Schema for the databases API
+// +kubebuilder:subresource:status
 type Database struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`

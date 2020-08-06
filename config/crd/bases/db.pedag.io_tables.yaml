@@ -34,8 +34,16 @@ spec:
         spec:
           description: TableSpec defines the desired state of Table
           properties:
-            database:
-              type: string
+            columns:
+              items:
+                description: Column represents a database column
+                properties:
+                  name:
+                    type: string
+                  type:
+                    type: string
+                type: object
+              type: array
             name:
               description: Foo is an example field of Table. Edit Table_types.go to
                 remove/update

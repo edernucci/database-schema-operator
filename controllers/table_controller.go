@@ -18,6 +18,9 @@ package controllers
 
 import (
 	"context"
+	"fmt"
+
+	"github.com/edernucci/database-schema-operator/pkg/helpers"
 
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -50,6 +53,29 @@ func (r *TableReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		// on deleted requests.
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
+
+	exists, err := helpers.CheckTable(table.Spec.Name)
+	if err != nil {
+		log.Error(err, "Error checking table")
+		return ctrl.Result{}, nil
+	}
+
+	if exists {
+		log.Info(fmt.Sprintf("The table [%s] exists on database.", table.Spec.Name))
+		helpers.UpdateColumns(table.Spec.Name, table.Spec.Columns)
+	} else {
+		log.Info(fmt.Sprintf("Creating table [%s] on database.", table.Spec.Name))
+		_, err := helpers.CreateTable(table.Spec.Name, table.Spec.Columns)
+		if err != nil {
+			log.Error(err, "Error creating table")
+			return ctrl.Result{}, nil
+		}
+	}
+
+	// for _, column := range table.Spec.Columns {
+	// 	log.Info(column.Name)
+	// }
+
 	return ctrl.Result{}, nil
 }
 

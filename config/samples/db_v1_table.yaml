@@ -4,12 +4,17 @@ metadata:
   name: users-table
 spec:
   name: Users
+  databaseRef:
+    name: adventureworks
+    kind: Database
   columns:
   - name: Id
-    kind: int
+    type: int not null identity(1,1)
   - name: Name
-    kind: varchar(50)
+    type: varchar(50) not null
   - name: Email
-    kind: varchar(255)
+    type: varchar(255) not null
   - name: Active
-    kind: bit
+    type: bit not null default(0)
+  - name: Blocked
+    type: bit not null default(0)

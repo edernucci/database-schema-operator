@@ -23,14 +23,20 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
+// Column represents a database column
+type Column struct {
+	Name string `json:"name,omitempty"`
+	Type string `json:"type,omitempty"`
+}
+
 // TableSpec defines the desired state of Table
 type TableSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// Foo is an example field of Table. Edit Table_types.go to remove/update
-	Name     string `json:"name,omitempty"`
-	Database string `json:"database,omitempty"`
+	Name    string   `json:"name,omitempty"`
+	Columns []Column `json:"columns,omitempty"`
 }
 
 // TableStatus defines the observed state of Table
