@@ -11,7 +11,7 @@ There will be some CRDs
 - [x] alter existing columns
 - [ ] add new columns
 - [ ] remove old columns (is it safe?)
-- [ ] use connection parameters from Database
+- [x] use connection parameters from Database
 - [ ] refator everything :-)
 
 Sample Database:
