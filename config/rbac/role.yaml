@@ -9,6 +9,26 @@ rules:
 - apiGroups:
   - db.pedag.io
   resources:
+  - databases
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - db.pedag.io
+  resources:
+  - databases/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - db.pedag.io
+  resources:
   - tables
   verbs:
   - create
