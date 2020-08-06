@@ -17,10 +17,10 @@ func connect(options *dbv1.DatabaseSpec) (*sql.DB, error) {
 
 func exec(sql string, db *sql.DB) (int64, error) {
 	stmt, err := db.Prepare(sql)
-	defer stmt.Close()
 	if err != nil {
 		return 0, err
 	}
+	defer stmt.Close()
 
 	res, err := stmt.Exec()
 	if err != nil {
@@ -32,10 +32,10 @@ func exec(sql string, db *sql.DB) (int64, error) {
 // CheckTable is CheckTable
 func CheckTable(t string, options *dbv1.DatabaseSpec) (bool, error) {
 	db, err := connect(options)
-	defer db.Close()
 	if err != nil {
 		return false, err
 	}
+	defer db.Close()
 
 	queryText := fmt.Sprintf("select 1 from [sys].[sysobjects] where [xtype] = 'u' and [name] = '%s'", t)
 	i, err := exec(queryText, db)
@@ -49,10 +49,10 @@ func CheckTable(t string, options *dbv1.DatabaseSpec) (bool, error) {
 // CreateTable is CreateTable
 func CreateTable(tableName string, columns []dbv1.Column, options *dbv1.DatabaseSpec) (int64, error) {
 	db, err := connect(options)
-	defer db.Close()
 	if err != nil {
 		return 0, err
 	}
+	defer db.Close()
 	var str strings.Builder
 	str.WriteString(fmt.Sprintf("create table [%s] (", tableName))
 	for _, column := range columns {
@@ -68,10 +68,10 @@ func CreateTable(tableName string, columns []dbv1.Column, options *dbv1.Database
 // UpdateColumns is UpdateColumns
 func UpdateColumns(tableName string, columns []dbv1.Column, options *dbv1.DatabaseSpec) (int64, error) {
 	db, err := connect(options)
-	defer db.Close()
 	if err != nil {
 		return 0, err
 	}
+	defer db.Close()
 
 	for _, column := range columns {
 		str := fmt.Sprintf("alter table [%s] alter column [%s] %s", tableName, column.Name, column.Type)
