@@ -5,6 +5,39 @@ There will be some CRDs
 - Database
 - Table
 
+Sample Database:
+```
+apiVersion: db.pedag.io/v1
+kind: Database
+metadata:
+  name: adventureworks
+spec:
+  name: AdventureWorks
+  server: localhost
+  port: 1433
+  user: sa
+  password: itssecret
+
+```
+Sample Table:
+```
+apiVersion: db.pedag.io/v1
+kind: Table
+metadata:
+  name: users-table
+spec:
+  name: Users
+  columns:
+  - name: Id
+    kind: int
+  - name: Name
+    kind: varchar(50)
+  - name: Email
+    kind: varchar(255)
+  - name: Active
+    kind: bit
+```
+
 Every Table must have a Database reference.
 
 Database will be something like SQLDatabase, PostgresDatabase, MySQLDatabase, etc.
