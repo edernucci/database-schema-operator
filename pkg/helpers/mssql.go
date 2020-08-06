@@ -76,7 +76,10 @@ func UpdateColumns(tableName string, columns []dbv1.Column, options *dbv1.Databa
 	for _, column := range columns {
 		str := fmt.Sprintf("alter table [%s] alter column [%s] %s", tableName, column.Name, column.Type)
 		log.Println(str)
-		exec(str, db)
+		_, err := exec(str, db)
+		if err != nil {
+			log.Println(err)
+		}
 	}
 
 	return 0, nil
