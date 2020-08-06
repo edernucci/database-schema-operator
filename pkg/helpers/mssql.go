@@ -65,18 +65,23 @@ func CreateTable(tableName string, columns []dbv1.Column, options *dbv1.Database
 	return exec(str.String(), db)
 }
 
-// UpdateColumns is UpdateColumns
-func UpdateColumns(tableName string, columns []dbv1.Column, options *dbv1.DatabaseSpec) (int64, error) {
+//UpdateColumn change the column state on Database.
+func UpdateColumn(tableName string, column dbv1.Column, options *dbv1.DatabaseSpec) (int64, error) {
 	db, err := connect(options)
 	if err != nil {
 		return 0, err
 	}
 	defer db.Close()
 
+	str := fmt.Sprintf("alter table [%s] alter column [%s] %s", tableName, column.Name, column.Type)
+	log.Println(str)
+	return exec(str, db)
+}
+
+// UpdateColumns is UpdateColumns
+func UpdateColumns(tableName string, columns []dbv1.Column, options *dbv1.DatabaseSpec) (int64, error) {
 	for _, column := range columns {
-		str := fmt.Sprintf("alter table [%s] alter column [%s] %s", tableName, column.Name, column.Type)
-		log.Println(str)
-		_, err := exec(str, db)
+		_, err := UpdateColumn(tableName, column, options)
 		if err != nil {
 			log.Println(err)
 		}
