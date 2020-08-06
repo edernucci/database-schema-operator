@@ -1,7 +1,15 @@
 apiVersion: db.pedag.io/v1
 kind: Table
 metadata:
-  name: table-sample
+  name: users-table
 spec:
-  # Add fields here
-  foo: bar
+  name: Users
+  columns:
+  - name: Id
+    kind: int
+  - name: Name
+    kind: varchar(50)
+  - name: Email
+    kind: varchar(255)
+  - name: Active
+    kind: bit

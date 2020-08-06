@@ -29,7 +29,8 @@ type TableSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// Foo is an example field of Table. Edit Table_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	Name     string `json:"name,omitempty"`
+	Database string `json:"database,omitempty"`
 }
 
 // TableStatus defines the observed state of Table

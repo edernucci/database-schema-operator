@@ -38,11 +38,18 @@ type TableReconciler struct {
 // +kubebuilder:rbac:groups=db.pedag.io,resources=tables/status,verbs=get;update;patch
 
 func (r *TableReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	_ = context.Background()
-	_ = r.Log.WithValues("table", req.NamespacedName)
+	ctx := context.Background()
+	log := r.Log.WithValues("table", req.NamespacedName)
 
 	// your logic here
-
+	var table dbv1.Table
+	if err := r.Get(ctx, req.NamespacedName, &table); err != nil {
+		log.Error(err, "unable to fetch Table")
+		// we'll ignore not-found errors, since they can't be fixed by an immediate
+		// requeue (we'll need to wait for a new notification), and we can get them
+		// on deleted requests.
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
 	return ctrl.Result{}, nil
 }
 

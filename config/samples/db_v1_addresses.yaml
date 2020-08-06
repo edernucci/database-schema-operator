@@ -1,0 +1,13 @@
+apiVersion: db.pedag.io/v1
+kind: Table
+metadata:
+  name: addresses-table
+spec:
+  name: Addresses
+  columns:
+  - name: Street
+    kind: varchar(50)
+  - name: Number
+    kind: varchar(50)
+  - name: UserId
+    kind: int
