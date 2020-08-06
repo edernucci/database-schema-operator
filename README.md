@@ -5,6 +5,15 @@ There will be some CRDs
 - Database
 - Table
 
+## Roadmap
+- [x] check if table exists
+- [x] create table with defined columns
+- [x] alter existing columns
+- [ ] add new columns
+- [ ] remove old columns (is it safe?)
+- [ ] use connection parameters from Database
+- [ ] refator everything :-)
+
 Sample Database:
 ```
 apiVersion: db.pedag.io/v1
