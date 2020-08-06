@@ -4,4 +4,7 @@ resources:
 - group: db
   kind: Table
   version: v1
+- group: db
+  kind: Database
+  version: v1
 version: "2"
